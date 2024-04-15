@@ -1,24 +1,24 @@
-// configurar ORM sequelize
 const { Sequelize, DataTypes } = require("sequelize");
-//const sequelize = new Sequelize("sqlite:" + process.env.base );
 const sequelize = new Sequelize("sqlite:" + "./.data/contacts.db");
+const { v4: uuidv4 } = require('uuid');
 
 // definir modelo de usuarios
 const User = sequelize.define("User", {
-  IdUser: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-  },
-  User: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-    unique: true,
-  },
-  Passwd: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
+    IdUser: {
+        type: DataTypes.UUID, 
+        defaultValue: DataTypes.UUIDV4,
+        allowNull: false,
+        unique: true,
+    },
+    Username: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+        unique: true,
+    },
+    Passwd: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+    },
 },
 {
     timestamps: false,
@@ -48,10 +48,22 @@ const Contact = sequelize.define("Contact", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  UserId: {
+    type: DataTypes.UUID,
+    allowNull: false,
+    references: {
+      model: User,
+      key: 'IdUser'
+    }
+  },
 },
 {
     timestamps: false,
 }
 );
+
+// Definir la relación entre User y Contact
+User.hasMany(Contact, { foreignKey: 'UserId' });
+Contact.belongsTo(User, { foreignKey: 'UserId' });
 
 module.exports = { User, Contact };
