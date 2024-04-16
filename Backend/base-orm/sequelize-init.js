@@ -45,7 +45,7 @@ const Contact = sequelize.define("Contact", {
     allowNull: false,
   },
   ProfilePic: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.TEXT,
     allowNull: false,
   },
   UserId: {

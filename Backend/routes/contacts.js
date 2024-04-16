@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { ValidationError } = require("sequelize");
 const jwt = require('jsonwebtoken');
+const cloudinary = require('../config/CloudinaryConfig');
 
 const db = require("../base-orm/sequelize-init");
 
@@ -46,12 +47,17 @@ router.get("/api/contacts", verifyToken, async (req, res) => {
 // POST /api/contacts: Create a new contact for the logged user
 router.post("/api/contacts", verifyToken, async (req, res) => {
     try {
+        const result = await cloudinary.uploader.upload(req.body.ProfilePic, {
+            folder: "profile_pics",
+            resource_type: "image"
+        });
+
         let data = await db.Contact.create({
             UserId: req.userId,
             Name: req.body.Name,
             Address: req.body.Address,
             Cellphone: req.body.Cellphone,
-            ProfilePic: req.body.ProfilePic,
+            ProfilePic: result.secure_url,
         });
         res.status(200).json(data.dataValues);
     } catch (err) {

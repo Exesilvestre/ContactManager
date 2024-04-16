@@ -40,7 +40,7 @@ async function CrearBaseSiNoExiste() {
         Name text NOT NULL UNIQUE,
         Address Text NOT NULL,
         Cellphone INTEGER NOT NULL,
-        ProfilePic INTEGER NOT NULL,
+        ProfilePic TEXT NOT NULL,
         FOREIGN KEY (UserId) REFERENCES users(IdUser));`
     );
     console.log("Contacts table created!");
