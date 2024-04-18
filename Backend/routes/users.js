@@ -2,8 +2,11 @@ const express = require('express');
 const router = express.Router();
 const { v4: uuidv4 } = require('uuid');
 const { User } = require('../base-orm/sequelize-init'); 
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt');
 
 let currentUser = null;
+process.env.JWT_SECRET = 'SecurityKey'
 
 // POST /api/Login: Loguea un usuario
 router.post('/api/login', async (req, res) => {

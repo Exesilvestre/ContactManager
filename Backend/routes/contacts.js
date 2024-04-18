@@ -3,6 +3,7 @@ const router = express.Router();
 const { ValidationError } = require("sequelize");
 const jwt = require('jsonwebtoken');
 const cloudinary = require('../config/CloudinaryConfig');
+const bcrypt = require('bcrypt');
 
 const db = require("../base-orm/sequelize-init");
 
