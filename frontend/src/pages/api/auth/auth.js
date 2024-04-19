@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export async function signIn(type, credentials) {
   try {
-    const response = await axios.post('/api/login', credentials);
+    const response = await axios.post('http://localhost:4000/api/user', credentials);
     
     if (response.data.success) {
       // Autenticación exitosa

@@ -3,7 +3,7 @@ import { signIn } from './auth'
 export default async function handler(req, res) {
   try {
     const { username, password } = req.body
-    await signIn('credentials', { email, username })
+    await signIn('credentials', { username, password })
  
     res.status(200).json({ success: true })
   } catch (error) {

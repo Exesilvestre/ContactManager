@@ -1,17 +1,17 @@
-import db from '../../lib/db'
- 
-export default async function handler(req, res) {
+import axios from 'axios';
+
+export async function createSession(userId) {
   try {
-    const user = req.body
-    const sessionId = generateSessionId()
-    await db.insertSession({
-      sessionId,
-      userId: user.id,
-      createdAt: new Date(),
-    })
- 
-    res.status(200).json({ sessionId })
+    const response = await axios.post('http://localhost:4000/api/session', {
+      userId: userId
+    });
+
+    if (response.data.success) {
+      return response.data.sessionId;
+    } else {
+      throw new Error('Failed to create session');
+    }
   } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' })
+    throw new Error('Failed to create session');
   }
 }

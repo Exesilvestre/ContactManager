@@ -2,7 +2,7 @@ import { serialize } from 'cookie'
  
 export default function handler(req, res) {
   const sessionData = req.body
-  const encryptedSessionData = encrypt(sessionData)
+  const encryptedSessionData = sessionData
  
   const cookie = serialize('session', encryptedSessionData, {
     httpOnly: true,
