@@ -15,21 +15,34 @@ const handler = NextAuth({
           {
             method: "POST",
             body: JSON.stringify({
-              email: credentials?.username,
+              username: credentials?.username,
               password: credentials?.password,
             }),
             headers: { "Content-Type": "application/json" },
           }
         );
         const user = await res.json();
-        console.log(user)
 
-        if (user.error) throw user;
+        if (res.status !== 200 || user.error) {
+          throw new Error(user.message || "Authentication failed");
+        }
 
         return user;
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      return { ...token, ...user };
+    },
+    async session({ session, token }) {
+      session.user = token as any;
+      return session;
+    },
+  },
+  pages: {
+    signIn: "/login",
+  },
 });
 
 export { handler as GET, handler as POST };
