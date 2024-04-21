@@ -1,71 +1,83 @@
 "use client";
-
+import { useFormik } from "formik";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"; // Cambiado de next/navigation a next/router
+import styles from './login.module.css';
 import { useState } from "react";
 
 const LoginPage = () => {
-  const [errors, setErrors] = useState<string[]>([]);
-  const [username, setUsername] = useState<string>("Jhon Doe");
-  const [password, setPassword] = useState<string>("123123");
   const router = useRouter();
+  const [usernamePlaceholder, setUsernamePlaceholder] = useState("Jhon Doe");
+  const [passwordPlaceholder, setPasswordPlaceholder] = useState("123123");
+  const [error, setError] = useState("");
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setErrors([]);
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    onSubmit: async (values, { setErrors }) => {
+      const { username, password } = values;
 
-    const responseNextAuth = await signIn("credentials", {
-      username,
-      password,
-      redirect: false,
-    });
+      if (!username || !password) {
+        return; // Detenemos la submisión si hay campos vacíos
+      }
 
-    if (responseNextAuth?.error) {
-      setErrors(responseNextAuth.error.split(","));
-      return;
-    }
+      const responseNextAuth = await signIn("credentials", {
+        username,
+        password,
+        redirect: false,
+      });
 
-    router.push("/dashboard");
-  };
+      if (responseNextAuth?.error) {
+        setError("Incorrect credentials");
+        return;
+      }
+
+      router.push("/dashboard");
+    },
+  });
 
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="username"
-          placeholder="Jhon Doe"
-          name="username"
-          className="form-control mb-2"
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="123123"
-          name="password"
-          className="form-control mb-2"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-        />
-        <button
-          type="submit"
-          className="btn btn-primary"
-        >
+    <div className={`${styles.formContainer} container`} >
+      <h1 className={styles.title}>Welcome</h1>
+      {error && <p className={styles.error}>{error}</p>}
+      <form onSubmit={formik.handleSubmit} className={styles.form}>
+        
+        <div className="form-group">
+          <label htmlFor="username" className={styles.inputLabel}>Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            className={`${styles.inputField} form-control`}
+            value={formik.values.username}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            placeholder={usernamePlaceholder}
+          />
+        </div>
+  
+        <div className="form-group">
+          <label htmlFor="password" className={styles.inputLabel}>Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            className={`${styles.inputField} form-control`}
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            placeholder={passwordPlaceholder}
+          />
+        </div>
+  
+        <button type="submit" className={styles.submitButton}>
           Login
         </button>
       </form>
-
-      {errors.length > 0 && (
-        <div className="alert alert-danger mt-2">
-          <ul className="mb-0">
-            {errors.map((error) => (
-              <li key={error}>{error}</li>
-            ))}
-          </ul>
-        </div>
-      )}
     </div>
   );
 };
+
 export default LoginPage;
