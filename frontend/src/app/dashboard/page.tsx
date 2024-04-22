@@ -1,39 +1,11 @@
-"use client";
-import { useSession } from "next-auth/react";
+'use client';
+import React from 'react';
+import DashboardProvider from './DashboardProvider';
 
-const Dashboard = () => {
-  const { data: session, status } = useSession();
-
-  if (status === "loading") {
-    return <p>Loading...</p>;
-  }
-  console.log(session?.user?.token);
-
-  const getContacts = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/contacts`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${session?.user?.token}`,
-      },
-    });
-    const data = await res.json();
-    console.log(data);
-  };
-
+const DashboardPage = () => {
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <button
-        onClick={getContacts}
-        className="btn btn-primary"
-      >
-        Get Contacts
-      </button>
-      <pre>
-        <code>{JSON.stringify(session, null, 2)}</code>
-      </pre>
-    </div>
+    <DashboardProvider />
   );
 };
-export default Dashboard;
+
+export default DashboardPage;
