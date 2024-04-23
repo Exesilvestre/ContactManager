@@ -28,8 +28,17 @@ const contactSlice = createSlice({
         state.status = 'succeeded';
         state.items = action.payload;
       })
+      .addCase(fetchContacts.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
       .addCase(addContact.fulfilled, (state, action) => {
+        state.status = 'succeeded';
         state.items.push(action.payload);
+      })
+      .addCase(addContact.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
       });
   },
 });

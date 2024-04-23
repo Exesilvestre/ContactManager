@@ -29,7 +29,7 @@ export const addContactAPI = async (contact: any) => {
       headers: headers,
       body: JSON.stringify(contact),
     });
-
+    console.log(contact)
     const data = await handleFetchErrors(response);
     return data;
   } catch (error) {
