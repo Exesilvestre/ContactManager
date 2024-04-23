@@ -3,17 +3,16 @@ import { Provider } from 'react-redux';
 import store from '../store/store'; 
 import dynamic from 'next/dynamic';
 
-// Carga dinámicamente el componente Dashboard
-const Dashboard = dynamic(() => import('./Dashboard'), {
+const AddContact = dynamic(() => import('./AddContact'), {
   ssr: false,
 });
 
-const DashboardProvider = () => {
+const AddContactProvider = () => {
   return (
     <Provider store={store}>
-      <Dashboard />
+      <AddContact />
     </Provider>
   );
 };
 
-export default DashboardProvider;
+export default AddContactProvider;

@@ -1,14 +1,21 @@
-
-import '../styles/AddContact.css'
-import ContactForm from './ContactForm';
-import ConfirmAdd from './ConfirmAdd';
+'use client';
+import ContactForm from './components/ContactForm';
+import ConfirmAdd from './components/ConfirmAdd';
 import { addContact } from '../store/contactSlice'; 
 import { useDispatch } from 'react-redux';
-import  { useState } from 'react';
+import { useState } from 'react';
+import './page.css';
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+
+
 
 
 const AddContact = () => {
+    const router = useRouter();
     const dispatch = useDispatch();
+    const { data: session, status } = useSession();
+
     const [newContact, setNewContact] = useState({
         name: '',
         title: '',
@@ -26,9 +33,17 @@ const AddContact = () => {
         });
     };
 
-    const handleSaveContact = () => {
-        dispatch(addContact(newContact));
-        onCancel();
+    const handleSaveContact = async () => {
+        if (!session) {
+            router.push("/login");
+            return;
+          }
+        try {
+            dispatch(addContact(newContact));
+            router.push('/dashboard');
+        } catch (error) {
+            console.error("Error adding contact:", error);
+        }
     };
 
 
@@ -37,15 +52,6 @@ const AddContact = () => {
             <div className="ledger">
                 <div className="upload-icon-container">
                     <i className="bi bi-upload"></i>
-                </div>
-            </div>
-            <div className="contact-info">
-                <div className="contact-image-container">
-                    <img src="/path-to-your-image.jpg" alt="Contact" className="contact-image" />
-                </div>
-                <div className="contact-details">
-                    <h2 className="contact-name">John Doe</h2>
-                    <p className="contact-position">Position</p>
                 </div>
             </div>
             <ContactForm onInputChange={handleInputChange}/>

@@ -23,7 +23,7 @@ const getHeaders = async (): Promise<HeadersInit> => {
 
 export const addContactAPI = async (contact: any) => {
   try {
-    const headers = await getHeaders();  // Espera a que getHeaders se resuelva
+    const headers = await getHeaders();
     const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/contacts`, {
       method: 'POST',
       headers: headers,
@@ -40,7 +40,7 @@ export const addContactAPI = async (contact: any) => {
 
 export const getContactsAPI = async () => {
   try {
-    const headers = await getHeaders();  // Espera a que getHeaders se resuelva
+    const headers = await getHeaders();
     const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/contacts`, {
       headers: headers,
     });

@@ -1,28 +1,29 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchContacts } from './store/contactSlice';
+import { fetchContacts } from '../store/contactSlice';
 import ContactList from './components/ContactList';
 import { useSession } from "next-auth/react";
 import './page.css';
 import SearchBar from './components/SearchBar';
 import AddButton from './components/AddButton';
-import AddContact from './components/AddContact';
+import { useRouter } from "next/navigation";
 
 const Dashboard = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const { items: contacts, status: contactsStatus } = useSelector((state) => state.contactSlice);
   const { data: session, status } = useSession();
 
-  const [showAddContact, setShowAddContact] = useState(false);
 
   const handleAddButtonClick = () => {
-    setShowAddContact(true);
-  };
+    if (!session) {
+      router.push("/login");
+      return;
+    }
 
-  const handleCancelAddContact = () => {
-    setShowAddContact(false);
-  }
+    router.push("/addContact");
+  };
 
   useEffect(() => {
     dispatch(fetchContacts());
@@ -34,19 +35,14 @@ const Dashboard = () => {
 
   return (
     <div className="container">
-      {showAddContact ? (
-        <>
-          <h1 className="dashboard-title">Contacts</h1>
+        <h1 className="dashboard-title">Contacts</h1>
           <SearchBar />
-          <div className="row mt-4">
-            <div className="col">
-              <ContactList contacts={contacts} />
-            </div>
+        <div className="row mt-4">
+          <div className="col">
+            <ContactList contacts={contacts} />
           </div>
-          <AddButton onAddClick={handleAddButtonClick} />
-        </>
-      ) : 
-      <AddContact onCancel={handleCancelAddContact} />}
+        </div>
+          <AddButton onAddClick={handleAddButtonClick} />  
     </div>
   );
 };

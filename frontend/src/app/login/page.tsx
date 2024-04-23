@@ -1,7 +1,7 @@
 "use client";
 import { useFormik } from "formik";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation"; // Cambiado de next/navigation a next/router
+import { useRouter } from "next/navigation";
 import styles from './login.module.css';
 import { useState } from "react";
 

@@ -32,6 +32,9 @@ const contactSlice = createSlice({
         state.status = 'failed';
         state.error = action.error.message;
       })
+      .addCase(addContact.pending, (state) => {
+        state.status = 'loading';
+      })
       .addCase(addContact.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.items.push(action.payload);

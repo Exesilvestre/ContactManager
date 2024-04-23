@@ -1,6 +1,31 @@
-
+import '../styles/contactForm.css'
+import { useEffect, useRef } from 'react';
 
 const ContactForm = ({ onInputChange }) => {
+    const addressInputRef = useRef(null);
+
+    useEffect(() => {
+      const autocomplete = new google.maps.places.Autocomplete(addressInputRef.current, {
+        fields: ['formatted_address'],
+        types: ['address'],
+      });
+  
+      autocomplete.addListener('place_changed', () => {
+        const place = autocomplete.getPlace();
+        if (!place.formatted_address) {
+          console.error("No address available for input");
+          return;
+        }
+        
+        onInputChange({
+          target: {
+            name: "address",
+            value: place.formatted_address,
+          }
+        });
+      });
+  
+    }, [onInputChange]);
     return (
         <form className="contact-form">
             <div className="row">
@@ -15,14 +40,20 @@ const ContactForm = ({ onInputChange }) => {
                     </div>
                     <div className="mb-3">
                         <label htmlFor="profilePicture" className="form-label">Profile Picture:</label>
-                        <input type="text" className="form-control" id="profilePicture" onChange={onInputChange} name="profilePicture" required />
+                        <input type="url" className="form-control" id="profilePicture" onChange={onInputChange} name="profilePicture" required />
                         <i className="bi bi-upload"></i>
                     </div>
                 </div>
                 <div className="col-md-6">
                     <div className="mb-3">
                         <label htmlFor="address" className="form-label">Address:</label>
-                        <input type="text" className="form-control" id="address" onChange={onInputChange} name="address" required />
+                        <input 
+                        type="text" 
+                        className="form-control" 
+                        id="address" 
+                        ref={addressInputRef} 
+                        required 
+                        />                   
                     </div>
                     <div className="mb-3">
                         <label htmlFor="phone" className="form-label">Phone:</label>
