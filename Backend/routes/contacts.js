@@ -26,6 +26,7 @@ const verifyToken = (req, res, next) => {
 // GET /api/contacts: get lost of contacts for the logged user
 router.get("/api/contacts", verifyToken, async (req, res) => {
     try {
+        console.log("User ID from Token:", req.userId);
         const contacts = await db.Contact.findAll({
             where: { UserId: req.userId },
             attributes: [
