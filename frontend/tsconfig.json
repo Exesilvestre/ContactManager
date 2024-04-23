@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/login-btn.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/login-btn.jsx", "src/app/dashboard/Dashboard.jsx", "src/app/store/slice.js"],
   "exclude": ["node_modules"]
 }

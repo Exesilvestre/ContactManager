@@ -1,0 +1,21 @@
+.no-contacts{
+    margin-left: 663px;
+    margin-top: 125px;
+}
+
+.no-contacts-img {
+    width: 187px;
+    height: 187px;
+}
+
+.no-contacts-text{
+    font-family: 'Red Hat Display', sans-serif;
+    margin-top: 24px;
+    margin-left: 7px;
+    font-weight: 700;
+    font-size: 20px;
+    align-items: center;
+    width: 201px;
+    height: 53px;
+    text-align: center;
+}

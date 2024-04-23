@@ -1,8 +1,10 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
 import SessionAuthProvider from '@/context/SessionAuthProvider';
+import Header from '@/components/Header';
+import './globals.css'
+import Script from 'next/script';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,8 +21,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main className='container'>
-          <SessionAuthProvider>{children}</SessionAuthProvider>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet"/>
+        <Header />
+        <Script
+          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.MY_API_KEY_HERE}&libraries=places`}
+          strategy="beforeInteractive"
+        />
+        <main className='container-fluid'>
+          <div className="row min-vh-100"> 
+            <div className="col"> 
+              <SessionAuthProvider>{children}</SessionAuthProvider>
+            </div>
+          </div>
         </main>
       </body>
     </html>
