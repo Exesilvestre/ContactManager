@@ -51,7 +51,7 @@ router.get("/api/contacts", verifyToken, async (req, res) => {
 // POST /api/contacts: Create a new contact for the logged user
 router.post("/api/contacts", verifyToken, async (req, res) => {
     try {
-        /*const result = await cloudinary.uploader.upload(req.body.ProfilePic, {
+        /*const result = await cloudinary.uploader.upload(req.body.profilePicture, {
             folder: "profile_pics",
             resource_type: "image"
         });*/
