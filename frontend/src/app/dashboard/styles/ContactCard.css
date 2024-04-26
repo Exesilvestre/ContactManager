@@ -1,0 +1,31 @@
+.card-contact{
+    max-width: 326px;
+    height: 119px;
+    border-radius: 16px;
+    border: 1px solid rgba(251, 238, 255, 1);
+    background: rgba(255, 255, 255, 1);
+
+}
+
+.btn-edit{
+    width: 12.73px;
+    height: 7.78px;
+
+}
+
+.info{
+    width: 273px;
+    height: 74px;
+    margin-top: 22.5px;
+    margin-left: 27px;
+    margin-right: 15px;
+    margin-bottom: 22.5px;
+}
+
+.profile-pic {
+    width: 74px;
+    height: 74px;
+    border-radius: 50%;
+    overflow: hidden;
+    
+}

@@ -1,6 +1,6 @@
 import  { useState } from 'react';
 import NoContacts from './NoContacts';
-import ContactItem from './Contact';
+import ContactCard from './ContactCard';
 
 const ContactList = ({ contacts }) => {
 
@@ -11,7 +11,7 @@ const ContactList = ({ contacts }) => {
   return (
     <div className="row row-cols-1 row-cols-md-3 g-4">
       {contacts.map((contact, index) => (
-        <ContactItem key={index} contact={contact} />
+        <ContactCard key={index} contact={contact} />
       ))}
     </div>
   );

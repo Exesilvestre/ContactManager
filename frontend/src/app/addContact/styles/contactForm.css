@@ -29,8 +29,6 @@
     height: 26px;
     color: rgba(18, 14, 33, 1);
     opacity: 1;
-
-
 }
 
 .form-control {
@@ -48,13 +46,32 @@
     text-align: left;
 }
 
-.bi-upload {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 24px;
+
+
+.contact-form .input-group {
+    display: flex;
+    
+}
+
+.contact-form .input-group i {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 0 4px 4px 0;
+    background-color: #e9ecef;
     cursor: pointer;
-    color: #aaa;
-    margin-top: 22px;
+}
+
+.contact-form .input-group input[type="url"],
+.contact-form .input-group input[type="file"] {
+    flex-grow: 1;
+    border-radius: 4px 0 0 4px;
+    border: none;
+}
+
+.contact-form .input-group i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(251, 238, 255, 1);
+    border: none;
 }

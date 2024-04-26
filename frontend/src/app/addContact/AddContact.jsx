@@ -8,13 +8,10 @@ import './page.css';
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
-
-
-
 const AddContact = () => {
     const router = useRouter();
     const dispatch = useDispatch();
-    const { data: session, status } = useSession();
+    const { data: session } = useSession();
 
     const [newContact, setNewContact] = useState({
         name: '',
@@ -33,19 +30,26 @@ const AddContact = () => {
         });
     };
 
+    const handleFileChange = (profilePictureUrl) => {
+        setNewContact({
+            ...newContact,
+            profilePicture: profilePictureUrl
+        });
+    };
+
     const handleSaveContact = async () => {
         if (!session) {
             router.push("/login");
             return;
-          }
+        }
         try {
+            // Guardar contacto en backend con URL de Cloudinary
             dispatch(addContact(newContact));
             router.push('/dashboard');
         } catch (error) {
             console.error("Error adding contact:", error);
         }
     };
-
 
     return (
         <div className="container">
@@ -54,8 +58,10 @@ const AddContact = () => {
                     <i className="bi bi-upload"></i>
                 </div>
             </div>
-            <ContactForm onInputChange={handleInputChange}/>
-
+            <ContactForm 
+                onInputChange={handleInputChange}
+                onFileChange={handleFileChange} // Aquí pasamos onFileChange
+            />
             <ConfirmAdd onSave={handleSaveContact} />
 
         </div>
