@@ -28,11 +28,7 @@ export default function RootLayout({
           strategy="beforeInteractive"
         />
         <main className='container-fluid'>
-          <div className="row min-vh-100"> 
-            <div className="col"> 
               <SessionAuthProvider>{children}</SessionAuthProvider>
-            </div>
-          </div>
         </main>
       </body>
     </html>

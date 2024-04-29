@@ -51,3 +51,17 @@ export const getContactsAPI = async () => {
     throw error;
   }
 };
+
+export const getContactByIdAPI = async (contactId: any) => {
+  try {
+    const headers = await getHeaders();
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/contacts/${contactId}`, {
+      headers: headers,
+    });
+    const data = await handleFetchErrors(response);
+    return data;
+  } catch (error) {
+    console.error('Error getting contact by ID:', error);
+    throw error;
+  }
+};

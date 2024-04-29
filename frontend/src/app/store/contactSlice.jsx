@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { addContactAPI, getContactsAPI } from './contactActions';
+import { addContactAPI, getContactsAPI, getContactByIdAPI } from './contactActions';
 
 export const fetchContacts = createAsyncThunk('contacts/fetchContacts', async () => {
   const contacts = await getContactsAPI();
@@ -9,6 +9,11 @@ export const fetchContacts = createAsyncThunk('contacts/fetchContacts', async ()
 export const addContact = createAsyncThunk('contacts/addContact', async (contact) => {
   const newContact = await addContactAPI(contact);
   return newContact;
+});
+
+export const fetchContactById = createAsyncThunk('contacts/fetchContactById', async (contactId) => {
+  const contact = await getContactByIdAPI(contactId);
+  return contact;
 });
 
 const contactSlice = createSlice({
@@ -29,6 +34,17 @@ const contactSlice = createSlice({
         state.items = action.payload;
       })
       .addCase(fetchContacts.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+      .addCase(fetchContactById.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchContactById.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.selectedContact = action.payload;
+      })
+      .addCase(fetchContactById.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       })

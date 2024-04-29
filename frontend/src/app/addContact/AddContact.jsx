@@ -53,17 +53,11 @@ const AddContact = () => {
 
     return (
         <div className="container">
-            <div className="ledger">
-                <div className="upload-icon-container">
-                    <i className="bi bi-upload"></i>
-                </div>
-            </div>
             <ContactForm 
                 onInputChange={handleInputChange}
-                onFileChange={handleFileChange} // Aquí pasamos onFileChange
+                onFileChange={handleFileChange}
             />
-            <ConfirmAdd onSave={handleSaveContact} />
-
+            <ConfirmAdd onSave={handleSaveContact} newContact={newContact} />
         </div>
     );
 };

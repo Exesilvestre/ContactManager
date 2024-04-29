@@ -29,6 +29,7 @@ const Dashboard = () => {
     dispatch(fetchContacts());
   }, [dispatch]);
 
+  console.log(contacts)
   if (status === "loading" || contactsStatus === 'loading') {
     return <p>Loading...</p>;
   }
@@ -37,12 +38,12 @@ const Dashboard = () => {
     <div className="container">
         <h1 className="dashboard-title">Contacts</h1>
           <SearchBar />
-        <div className="row mt-4">
-          <div className="col">
-            <ContactList contacts={contacts} />
+          <div className="row mt-4">
+            <div className="col">
+              <ContactList contacts={contacts}/>
+            </div>
           </div>
-        </div>
-          <AddButton onAddClick={handleAddButtonClick} />  
+            <AddButton onAddClick={handleAddButtonClick} />    
     </div>
   );
 };

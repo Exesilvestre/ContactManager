@@ -1,26 +1,48 @@
 "use client";
-import { useFormik } from "formik";
+import { FormikErrors, useFormik } from "formik";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import styles from './login.module.css';
 import { useState } from "react";
 
+interface FormValues {
+  username: string;
+  password: string;
+}
+
 const LoginPage = () => {
   const router = useRouter();
-  const [usernamePlaceholder, setUsernamePlaceholder] = useState("Jhon Doe");
-  const [passwordPlaceholder, setPasswordPlaceholder] = useState("123123");
-  const [error, setError] = useState("");
+  const [error, setError] = useState<{ message?: string }>({});
 
   const formik = useFormik({
     initialValues: {
       username: "",
       password: "",
     },
-    onSubmit: async (values, { setErrors }) => {
+    validate: (values) => {
+      const errors: Partial<FormValues> = {};
+      if (!values.username) {
+        errors.username = "Username is required";
+      }
+      if (!values.password) {
+        errors.password = "Password is equired";
+      }
+      return errors;
+    },
+    onSubmit: async (values: FormValues, { setErrors }) => {
       const { username, password } = values;
-
-      if (!username || !password) {
-        return; // Detenemos la submisión si hay campos vacíos
+      const isUsernameEmpty = !username.trim();
+      const isPasswordEmpty = !password.trim();
+      if (isUsernameEmpty || isPasswordEmpty) {
+        const errors: FormikErrors<FormValues> = {};
+        if (isUsernameEmpty) {
+          errors.username = "Username is required";
+        }
+        if (isPasswordEmpty) {
+          errors.password = "Password is required";
+        }
+        setErrors(errors);
+        return;
       }
 
       const responseNextAuth = await signIn("credentials", {
@@ -30,7 +52,7 @@ const LoginPage = () => {
       });
 
       if (responseNextAuth?.error) {
-        setError("Incorrect credentials");
+        setError({ message: "Incorrect credentials" });
         return;
       }
 
@@ -41,7 +63,7 @@ const LoginPage = () => {
   return (
     <div className={`${styles.formContainer} container`} >
       <h1 className={styles.title}>Welcome</h1>
-      {error && <p className={styles.error}>{error}</p>}
+      {error.message && <p className={styles.error}>{error.message}</p>}
       <form onSubmit={formik.handleSubmit} className={styles.form}>
         
         <div className="form-group">
@@ -54,8 +76,10 @@ const LoginPage = () => {
             value={formik.values.username}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            placeholder={usernamePlaceholder}
           />
+          {formik.touched.username && formik.errors.username ? (
+            <div className={styles.error}>{formik.errors.username}</div>
+          ) : null}
         </div>
   
         <div className="form-group">
@@ -68,8 +92,10 @@ const LoginPage = () => {
             value={formik.values.password}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            placeholder={passwordPlaceholder}
           />
+          {formik.touched.password && formik.errors.password ? (
+            <div className={styles.error}>{formik.errors.password}</div>
+          ) : null}
         </div>
   
         <button type="submit" className={styles.submitButton}>

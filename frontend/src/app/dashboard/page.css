@@ -1,6 +1,7 @@
 .container {
-    margin-top: 96px; 
-    margin-left: 73px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .dashboard-title {
@@ -11,33 +12,29 @@
     font-weight: 900;
     line-height: 51.68px;
     letter-spacing: -0.01em;
-    text-align: left;
+    text-align: left; /* Alinea el título a la izquierda */
     color: rgba(18, 14, 33, 1);
+    margin-bottom: 2%;
+}
+
+.container {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    opacity: 1; 
-  }
+}
 
 .search-container {
-    display: flex;
-    align-items: center;
-    margin-top: 35px;
-    margin-left: 0px;
-    width: 1366px;
-    height: 45px;
-    border-radius: 8px;
-    border: 1px solid rgba(251, 238, 255, 1);
+    width: 100%;
 }
 
 .search-icon {
     background-color: transparent;
-    height: 25px; 
-    border: 0; 
+    height: 25px;
+    border: 0;
     display: flex;
     align-items: center;
-    justify-content: center; 
-    padding-right: 3px; 
+    justify-content: center;
+    padding-right: 3px;
     width: 46px;
 }
 
@@ -45,5 +42,11 @@
     border: 0;
     border-left: 1px solid rgba(153, 135, 157, 1);
     height: 25px;
-    width: 1247px;
+    width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+    .container {
+        margin: 20px 100px; /* Márgenes de 100px en los lados cuando la pantalla es más grande que 768px */
+    }
 }

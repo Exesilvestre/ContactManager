@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 const ContactForm = ({ onInputChange, onFileChange }) => {
     const addressInputRef = useRef(null);
     const fileInputRef = useRef(null); 
+    
 
     useEffect(() => {
         const autocomplete = new google.maps.places.Autocomplete(addressInputRef.current, {
