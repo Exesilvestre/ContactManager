@@ -48,6 +48,33 @@ router.get("/api/contacts", verifyToken, async (req, res) => {
     }
 });
 
+router.get("/api/contacts/:id", verifyToken, async (req, res) => {
+    try {
+        console.log("User ID from Token:", req.userId);
+        const contact = await db.Contact.findOne({
+            where: { UserId: req.userId, IdContact: req.params.id  },
+            attributes: [
+                "IdContact",
+                "Name",
+                "Address",
+                "Cellphone",
+                "ProfilePic",
+                "Title",
+                "Email",
+            ],
+        });
+
+        if (!contact) {
+            res.status(404).json({ message: "Contact not found" });
+            return;
+        }
+        res.json(contact)
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al obtener el contacto' });
+    }
+});
+
 // POST /api/contacts: Create a new contact for the logged user
 router.post("/api/contacts", verifyToken, async (req, res) => {
     try {
@@ -90,6 +117,8 @@ router.put("/api/contacts/:id", verifyToken, async (req, res) => {
         }
 
         item.Name = req.body.name;
+        item.Email = req.body.email;
+        item.Title = req.body.title;
         item.Address = req.body.address;
         item.Cellphone = req.body.phone;
         item.ProfilePic = req.body.profilePicture;
