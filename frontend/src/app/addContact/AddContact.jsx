@@ -1,20 +1,16 @@
 'use client';
-import ContactForm from './components/ContactForm';
-import ConfirmAdd from './components/ConfirmAdd';
+import React, { useState } from 'react';
 import { addContact } from '../store/contactSlice'; 
 import { useDispatch } from 'react-redux';
-import { useState } from 'react';
+import ContactForm from './components/ContactForm';
 import './page.css';
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
-
-
-
 const AddContact = () => {
     const router = useRouter();
     const dispatch = useDispatch();
-    const { data: session, status } = useSession();
+    const { data: session } = useSession();
 
     const [newContact, setNewContact] = useState({
         name: '',
@@ -33,11 +29,25 @@ const AddContact = () => {
         });
     };
 
+    const handleFileChange = (profilePictureUrl) => {
+        setNewContact({
+            ...newContact,
+            profilePicture: profilePictureUrl
+        });
+    };
+
     const handleSaveContact = async () => {
         if (!session) {
             router.push("/login");
             return;
-          }
+        }
+        const allFieldsCompleted = Object.values(newContact).every(field => !!field);
+        console.log("All fields completed:", allFieldsCompleted);
+        console.log(newContact)
+        if (!allFieldsCompleted) {
+            alert('All fields need to be filled.');
+            return;
+        }
         try {
             dispatch(addContact(newContact));
             router.push('/dashboard');
@@ -47,17 +57,18 @@ const AddContact = () => {
     };
 
 
+
     return (
         <div className="container">
-            <div className="ledger">
-                <div className="upload-icon-container">
-                    <i className="bi bi-upload"></i>
-                </div>
+            <ContactForm 
+                onInputChange={handleInputChange}
+                onFileChange={handleFileChange}
+            />
+            <div className="button-container">
+                <button className="btn-add" onClick={handleSaveContact}>
+                    Confirm Contact
+                </button>
             </div>
-            <ContactForm onInputChange={handleInputChange}/>
-
-            <ConfirmAdd onSave={handleSaveContact} />
-
         </div>
     );
 };

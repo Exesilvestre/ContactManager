@@ -64,6 +64,14 @@ const Contact = sequelize.define("Contact", {
     allowNull: false,
     unique: true,
   },
+  Email: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  Title: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
   Address: {
     type: DataTypes.TEXT,
     allowNull: false,

@@ -69,6 +69,10 @@
   align-items: center;
 }
 
+.errorText {
+  color: red;
+}
+
 
 /* Media queries para pantallas más grandes */
 @media (min-width: 768px) {

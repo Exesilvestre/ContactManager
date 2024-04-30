@@ -1,0 +1,9 @@
+.container {
+    position: relative;
+}
+
+.contact-info-container{
+    position: absolute;
+    z-index: 1;
+    top: 320px;
+}

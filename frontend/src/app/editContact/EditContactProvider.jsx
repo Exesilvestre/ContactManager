@@ -3,16 +3,16 @@ import { Provider } from 'react-redux';
 import store from '../store/store'; 
 import dynamic from 'next/dynamic';
 
-const Dashboard = dynamic(() => import('./Dashboard'), {
+const EditContact = dynamic(() => import('./EditContact'), {
   ssr: false,
 });
 
-const DashboardProvider = () => {
+const EditContactProvider = () => {
   return (
     <Provider store={store}>
-      <Dashboard />
+      <EditContact />
     </Provider>
   );
 };
 
-export default DashboardProvider;
+export default EditContactProvider;

@@ -1,43 +1,31 @@
 .container {
-    margin-top: 96px; 
-    margin-left: 73px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .dashboard-title {
-    width: 172px;
-    height: 52px;
     font-family: 'Red Hat Display', sans-serif;
-    font-size: 39.06px;
     font-weight: 900;
-    line-height: 51.68px;
-    letter-spacing: -0.01em;
-    text-align: left;
     color: rgba(18, 14, 33, 1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 1; 
-  }
+    text-align: left;
+    margin-bottom: 2%;
+    margin-top: 2%;
+    align-self: flex-start; 
+}
 
 .search-container {
-    display: flex;
-    align-items: center;
-    margin-top: 35px;
-    margin-left: 0px;
-    width: 1366px;
-    height: 45px;
-    border-radius: 8px;
-    border: 1px solid rgba(251, 238, 255, 1);
+    width: 100%;
 }
 
 .search-icon {
     background-color: transparent;
-    height: 25px; 
-    border: 0; 
+    height: 25px;
+    border: 0;
     display: flex;
     align-items: center;
-    justify-content: center; 
-    padding-right: 3px; 
+    justify-content: center;
+    padding-right: 3px;
     width: 46px;
 }
 
@@ -45,5 +33,25 @@
     border: 0;
     border-left: 1px solid rgba(153, 135, 157, 1);
     height: 25px;
-    width: 1247px;
+    width: 100%;
+}
+
+/* Estilos para pantallas pequeñas */
+@media screen and (max-width: 767px) {
+    .container {
+        margin-left: 0px;
+    }
+    
+    .dashboard-title {
+        font-size: 30px; 
+        line-height: 36px; 
+    }
+}
+
+@media screen and (min-width: 768px) {
+    
+    .dashboard-title {
+        font-size: 39.06px; 
+        line-height: 51.68px;
+    }
 }

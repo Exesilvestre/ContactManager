@@ -35,6 +35,8 @@ router.get("/api/contacts", verifyToken, async (req, res) => {
                 "Address",
                 "Cellphone",
                 "ProfilePic",
+                "Title",
+                "Email",
             ],
             order: [["Name", "ASC"]],
         });
@@ -46,20 +48,49 @@ router.get("/api/contacts", verifyToken, async (req, res) => {
     }
 });
 
+router.get("/api/contacts/:id", verifyToken, async (req, res) => {
+    try {
+        console.log("User ID from Token:", req.userId);
+        const contact = await db.Contact.findOne({
+            where: { UserId: req.userId, IdContact: req.params.id  },
+            attributes: [
+                "IdContact",
+                "Name",
+                "Address",
+                "Cellphone",
+                "ProfilePic",
+                "Title",
+                "Email",
+            ],
+        });
+
+        if (!contact) {
+            res.status(404).json({ message: "Contact not found" });
+            return;
+        }
+        res.json(contact)
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al obtener el contacto' });
+    }
+});
+
 // POST /api/contacts: Create a new contact for the logged user
 router.post("/api/contacts", verifyToken, async (req, res) => {
     try {
-        const result = await cloudinary.uploader.upload(req.body.ProfilePic, {
+        /*const result = await cloudinary.uploader.upload(req.body.profilePicture, {
             folder: "profile_pics",
             resource_type: "image"
-        });
+        });*/
 
         let data = await db.Contact.create({
             UserId: req.userId,
-            Name: req.body.Name,
-            Address: req.body.Address,
-            Cellphone: req.body.Cellphone,
-            ProfilePic: result.secure_url,
+            Email: req.body.email,
+            Name: req.body.name,
+            Address: req.body.address,
+            Cellphone: req.body.phone,
+            ProfilePic: req.body.profilePicture,
+            Title: req.body.title,
         });
         res.status(200).json(data.dataValues);
     } catch (err) {
@@ -85,10 +116,12 @@ router.put("/api/contacts/:id", verifyToken, async (req, res) => {
             return;
         }
 
-        item.Name = req.body.Name;
-        item.Address = req.body.Address;
-        item.Cellphone = req.body.Cellphone;
-        item.ProfilePic = req.body.ProfilePic;
+        item.Name = req.body.name;
+        item.Email = req.body.email;
+        item.Title = req.body.title;
+        item.Address = req.body.address;
+        item.Cellphone = req.body.phone;
+        item.ProfilePic = req.body.profilePicture;
 
         await item.save();
         res.sendStatus(200);

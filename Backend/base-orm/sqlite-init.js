@@ -60,6 +60,7 @@ async function CrearBaseSiNoExiste() {
   exist = false;
   resp = null;
 
+
   resp = await db.get(
     "SELECT count(*) as contar FROM sqlite_schema WHERE type = 'table' and name= 'contacts'",
     []
@@ -70,6 +71,8 @@ async function CrearBaseSiNoExiste() {
     `CREATE table contacts( 
         IdContact INTEGER PRIMARY KEY AUTOINCREMENT,
         UserId TEXT NOT NULL,
+        Email TEXT NOT NULL,
+        Title TEXT NOT NULL,
         Name text NOT NULL UNIQUE,
         Address Text NOT NULL,
         Cellphone INTEGER NOT NULL,
