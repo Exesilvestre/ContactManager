@@ -1,9 +1,8 @@
 'use client';
-import ContactForm from './components/ContactForm';
-import ConfirmAdd from './components/ConfirmAdd';
+import React, { useState } from 'react';
 import { addContact } from '../store/contactSlice'; 
 import { useDispatch } from 'react-redux';
-import { useState } from 'react';
+import ContactForm from './components/ContactForm';
 import './page.css';
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -42,8 +41,14 @@ const AddContact = () => {
             router.push("/login");
             return;
         }
+        const allFieldsCompleted = Object.values(newContact).every(field => !!field);
+        console.log("All fields completed:", allFieldsCompleted);
+        console.log(newContact)
+        if (!allFieldsCompleted) {
+            alert('All fields need to be filled.');
+            return;
+        }
         try {
-            // Guardar contacto en backend con URL de Cloudinary
             dispatch(addContact(newContact));
             router.push('/dashboard');
         } catch (error) {
@@ -51,13 +56,19 @@ const AddContact = () => {
         }
     };
 
+
+
     return (
         <div className="container">
             <ContactForm 
                 onInputChange={handleInputChange}
                 onFileChange={handleFileChange}
             />
-            <ConfirmAdd onSave={handleSaveContact} newContact={newContact} />
+            <div className="button-container">
+                <button className="btn-add" onClick={handleSaveContact}>
+                    Confirm Contact
+                </button>
+            </div>
         </div>
     );
 };

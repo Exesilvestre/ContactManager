@@ -37,13 +37,13 @@ const Dashboard = () => {
   return (
     <div className="container">
         <h1 className="dashboard-title">Contacts</h1>
-          <SearchBar />
-          <div className="row mt-4">
-            <div className="col">
-              <ContactList contacts={contacts}/>
-            </div>
+        <SearchBar />
+        <div className="row mt-4">
+          <div className="col">
+            <ContactList contacts={contacts}/>
           </div>
-            <AddButton onAddClick={handleAddButtonClick} />    
+        </div>
+          <AddButton onAddClick={handleAddButtonClick} />    
     </div>
   );
 };

@@ -17,4 +17,9 @@
     align-items: center;
     justify-content: center;
 }
+.card-cont{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
   

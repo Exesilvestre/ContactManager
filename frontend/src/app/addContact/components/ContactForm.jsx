@@ -1,9 +1,10 @@
 import '../styles/contactForm.css';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef,useState } from 'react';
 
 const ContactForm = ({ onInputChange, onFileChange }) => {
     const addressInputRef = useRef(null);
     const fileInputRef = useRef(null); 
+    const [selectedFileName, setSelectedFileName] = useState('');
     
 
     useEffect(() => {
@@ -32,6 +33,7 @@ const ContactForm = ({ onInputChange, onFileChange }) => {
     const handleFileChange = async (e) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
+            setSelectedFileName(file.name);
             const formData = new FormData();
             formData.append('file', file);
             formData.append('upload_preset', 'ml_default');
@@ -49,8 +51,9 @@ const ContactForm = ({ onInputChange, onFileChange }) => {
                 console.error("Error uploading image to Cloudinary:", error);
             }
         }else{
-          const profilePictureUrl = e.target.value
-          onFileChange(profilePictureUrl)
+            setSelectedFileName('');
+            const profilePictureUrl = e.target.value
+            onFileChange(profilePictureUrl)
         }
     };
 
@@ -73,12 +76,15 @@ const ContactForm = ({ onInputChange, onFileChange }) => {
                             <input 
                                 type="file" 
                                 className="form-control" 
-                                ref={fileInputRef} // Referencia al input de archivo
+                                ref={fileInputRef} 
                                 onChange={handleFileChange} 
-                                style={{ display: 'none' }} // Esto oculta el input de archivo
+                                style={{ display: 'none' }}
                             />
                             <i className="bi bi-upload" onClick={() => fileInputRef.current.click()}></i>
                         </div>
+                        {selectedFileName && (
+                            <div>{selectedFileName}</div>
+                        )}
                     </div>
                 </div>
                 <div className="col-md-6">
