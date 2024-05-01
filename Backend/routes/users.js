@@ -38,7 +38,7 @@ router.post('/api/login', async (req, res) => {
     }
 });
 
-// GET /api/user: get the current logged user info
+// GET /api/user: obtener info del ususario creado
 router.get('/api/user', (req, res) => {
     if (!currentUser) {
         return res.status(401).json({ message: 'No hay usuario logueado' });

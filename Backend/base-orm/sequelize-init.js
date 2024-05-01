@@ -25,34 +25,7 @@ const User = sequelize.define("User", {
     timestamps: false,
 });
 
-// definir modelo de sesiones
-const Session = sequelize.define("Session", {
-    SessionId: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
-        allowNull: false,
-        unique: true,
-        primaryKey: true,
-    },
-    UserId: {
-        type: DataTypes.UUID,
-        allowNull: false,
-        references: {
-            model: User,
-            key: 'IdUser'
-        }
-    },
-    CreatedAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.NOW,
-    },
-},
-{
-    timestamps: false,
-});
-
-// definir modelo de contactos
+// defino modelo de contactos
 const Contact = sequelize.define("Contact", {
   IdContact: {
     type: DataTypes.INTEGER,
@@ -92,16 +65,20 @@ const Contact = sequelize.define("Contact", {
       key: 'IdUser'
     }
   },
+  hooks: {
+    beforeValidate: function (contact, options) {
+      if (typeof contact.Name === "string") {
+        contact.Name = contact.Name.toUpperCase().trim();
+      }
+    },
+  },
 },
 {
     timestamps: false,
 });
 
-// Definir las relaciones entre los modelos
+// Defino relaciones
 User.hasMany(Contact, { foreignKey: 'UserId' });
 Contact.belongsTo(User, { foreignKey: 'UserId' });
 
-User.hasMany(Session, { foreignKey: 'UserId' });
-Session.belongsTo(User, { foreignKey: 'UserId' });
-
-module.exports = { User, Contact, Session };
+module.exports = { User, Contact};

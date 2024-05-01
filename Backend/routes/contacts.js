@@ -23,7 +23,7 @@ const verifyToken = (req, res, next) => {
     }
 };
 
-// GET /api/contacts: get lost of contacts for the logged user
+// GET
 router.get("/api/contacts", verifyToken, async (req, res) => {
     try {
         console.log("User ID from Token:", req.userId);
@@ -75,14 +75,9 @@ router.get("/api/contacts/:id", verifyToken, async (req, res) => {
     }
 });
 
-// POST /api/contacts: Create a new contact for the logged user
+// POST
 router.post("/api/contacts", verifyToken, async (req, res) => {
     try {
-        /*const result = await cloudinary.uploader.upload(req.body.profilePicture, {
-            folder: "profile_pics",
-            resource_type: "image"
-        });*/
-
         let data = await db.Contact.create({
             UserId: req.userId,
             Email: req.body.email,
@@ -104,7 +99,7 @@ router.post("/api/contacts", verifyToken, async (req, res) => {
     }
 });
 
-// PUT /api/contacts/{contactId}: Update a contact for the logged user
+// PUT
 router.put("/api/contacts/:id", verifyToken, async (req, res) => {
     try {
         let item = await db.Contact.findOne({
@@ -133,6 +128,25 @@ router.put("/api/contacts/:id", verifyToken, async (req, res) => {
         } else {
             throw err;
         }
+    }
+});
+
+// DELETE
+router.delete("/api/contacts/:id", verifyToken, async (req, res) => {
+    try {
+        const result = await db.Contact.destroy({
+            where: { IdContact: req.params.id, UserId: req.userId },
+        });
+
+        if (result === 0) {
+            res.status(404).json({ message: "Contact not found" });
+            return;
+        }
+
+        res.sendStatus(200);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error deleting contact' });
     }
 });
 
