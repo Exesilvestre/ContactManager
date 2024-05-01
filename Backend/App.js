@@ -15,9 +15,6 @@ app.use(usersRouter);
 const contactsRouter = require("./routes/contacts");
 app.use(contactsRouter);
 
-const sessionsRouter = require("./routes/sessions");
-app.use(sessionsRouter);
-
 // start server
 if (!module.parent) {
   const port = process.env.PORT || 4000;   

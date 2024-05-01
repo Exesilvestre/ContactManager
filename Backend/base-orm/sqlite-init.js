@@ -38,29 +38,6 @@ async function CrearBaseSiNoExiste() {
   exist = false;
   resp = null;
 
-  // Crear tabla de sesiones si no existe
-  resp = await db.get(
-    "SELECT count(*) as contar FROM sqlite_schema WHERE type = 'table' and name= 'sessions'",
-    []
-  );
-  exist = (resp.contar > 0);
-
-  if (!exist) {
-    await db.run(
-      `CREATE table sessions(
-          SessionId TEXT PRIMARY KEY,
-          UserId TEXT,
-          CreatedAt DATETIME,
-          FOREIGN KEY (UserId) REFERENCES users(IdUser)
-        );`
-    );
-    console.log("Sessions table created!");
-  }
-
-  exist = false;
-  resp = null;
-
-
   resp = await db.get(
     "SELECT count(*) as contar FROM sqlite_schema WHERE type = 'table' and name= 'contacts'",
     []
