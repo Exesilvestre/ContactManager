@@ -56,5 +56,8 @@ npm install
 ### Start the Frontend
 
 ```
-npm start
+npm run dev
 ```
+
+###Credentials
+The credentials to login are username: admin, and password: 123
