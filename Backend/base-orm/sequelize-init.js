@@ -65,13 +65,6 @@ const Contact = sequelize.define("Contact", {
       key: 'IdUser'
     }
   },
-  hooks: {
-    beforeValidate: function (contact, options) {
-      if (typeof contact.Name === "string") {
-        contact.Name = contact.Name.toUpperCase().trim();
-      }
-    },
-  },
 },
 {
     timestamps: false,
