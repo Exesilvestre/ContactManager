@@ -21,10 +21,11 @@ const EditContact = () =>{
 
     return (
         <div className='container'>
-            <div className="contact-info-container">
+            {/*<div className="contact-info-container">
                 <ContactInfo contact={selectedContact} />
             </div>
-            <Ledger />
+    <Ledger />*/}
+            <h1>Not implemented yet</h1>
             
 
         </div>

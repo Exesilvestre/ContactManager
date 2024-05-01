@@ -1,21 +1,26 @@
-/* Estilos CSS */
 .card-container {
-    width: 100%; /* Ajustar el ancho al 100% para que se expanda horizontalmente */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-.grid-card {
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.container-grid{
+.row .row-cols-1 .row-cols-md-3 .g-4 {
+    width: 100%;
+}
+  
+.grid-card {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 500px;
+}
+
+.container-grid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100% !important;
 }
 .card-cont{
     display: flex;

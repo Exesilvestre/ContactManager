@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { addContactAPI, getContactsAPI, getContactByIdAPI } from './contactActions';
+import { addContactAPI, getContactsAPI, getContactByIdAPI, deleteContactAPI } from './contactActions';
 
 export const fetchContacts = createAsyncThunk('contacts/fetchContacts', async () => {
   const contacts = await getContactsAPI();
@@ -14,6 +14,11 @@ export const addContact = createAsyncThunk('contacts/addContact', async (contact
 export const fetchContactById = createAsyncThunk('contacts/fetchContactById', async (contactId) => {
   const contact = await getContactByIdAPI(contactId);
   return contact;
+});
+
+export const deleteContact = createAsyncThunk('contacts/deleteContact', async (contactId) => {
+  await deleteContactAPI(contactId);
+  return contactId;
 });
 
 const contactSlice = createSlice({
@@ -56,6 +61,17 @@ const contactSlice = createSlice({
         state.items.push(action.payload);
       })
       .addCase(addContact.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+      .addCase(deleteContact.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(deleteContact.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.items = state.items.filter(contact => contact.IdContact !== action.payload);
+      })
+      .addCase(deleteContact.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       });

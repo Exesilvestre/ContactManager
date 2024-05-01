@@ -1,9 +1,8 @@
-// Componente ContactList
 import NoContacts from './NoContacts';
 import ContactCard from './ContactCard';
 import '../styles/contactList.css';
 
-const ContactList = ({ contacts }) => {
+const ContactList = ({ contacts, handleDeleteContact }) => {
   if (contacts.length === 0) {
     return <NoContacts />;
   }

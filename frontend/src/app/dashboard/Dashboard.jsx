@@ -8,6 +8,8 @@ import './page.css';
 import SearchBar from './components/SearchBar';
 import AddButton from './components/AddButton';
 import { useRouter } from "next/navigation";
+import {ADD_CONTACT_ROUTE, LOGIN_ROUTE} from '../routes'
+
 
 const Dashboard = () => {
   const router = useRouter();
@@ -18,18 +20,25 @@ const Dashboard = () => {
 
   const handleAddButtonClick = () => {
     if (!session) {
-      router.push("/login");
+      router.push(ADD_CONTACT_ROUTE);
       return;
     }
 
-    router.push("/addContact");
+    router.push(ADD_CONTACT_ROUTE);
   };
 
   useEffect(() => {
     dispatch(fetchContacts());
   }, [dispatch]);
 
-  console.log(contacts)
+  useEffect(() => {
+    if (contactsStatus === 'success') {
+      dispatch(fetchContacts());
+      console.log(contacts)
+    }
+  }, [contactsStatus, dispatch]);
+
+
   if (status === "loading" || contactsStatus === 'loading') {
     return <p>Loading...</p>;
   }
