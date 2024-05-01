@@ -1,11 +1,23 @@
 import { getSession } from "next-auth/react";
 
-const handleFetchErrors = (response: Response) => {
+const handleFetchErrors = async (response: Response) => {
   if (!response.ok) {
     throw new Error(`HTTP error! Status: ${response.status}`);
   }
-  return response.json();
+  
+  const contentType = response.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
+    try {
+      return await response.json();
+    } catch (error) {
+      console.error('Error parsing JSON response:', error);
+      throw new Error('Failed to parse JSON response');
+    }
+  } else {
+    return await response.text();
+  }
 };
+
 
 const getHeaders = async (): Promise<HeadersInit> => {
   const session = await getSession();  
@@ -62,6 +74,21 @@ export const getContactByIdAPI = async (contactId: any) => {
     return data;
   } catch (error) {
     console.error('Error getting contact by ID:', error);
+    throw error;
+  }
+};
+
+export const deleteContactAPI = async (contactId: any) => {
+  try {
+    const headers = await getHeaders();
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/contacts/${contactId}`, {
+      method: 'DELETE',
+      headers: headers,
+    });
+    const data = await handleFetchErrors(response);
+    return data;
+  } catch (error) {
+    console.error('Error deleting contact:', error);
     throw error;
   }
 };

@@ -1,34 +1,11 @@
 import '../styles/contactForm.css';
-import { useEffect, useRef,useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import useGooglePlacesAutocomplete from '../hooks/useGooglePlacesAutocomplete'
 
-const ContactForm = ({ onInputChange, onFileChange }) => {
-    const addressInputRef = useRef(null);
-    const fileInputRef = useRef(null); 
+const ContactForm = ({ onInputChange, onFileChange, validationErrors }) => {
+    const fileInputRef = useRef(null);
     const [selectedFileName, setSelectedFileName] = useState('');
-    
-
-    useEffect(() => {
-        const autocomplete = new google.maps.places.Autocomplete(addressInputRef.current, {
-            fields: ['formatted_address'],
-            types: ['address'],
-        });
-
-        autocomplete.addListener('place_changed', () => {
-            const place = autocomplete.getPlace();
-            if (!place.formatted_address) {
-                console.error("No address available for input");
-                return;
-            }
-
-            onInputChange({
-                target: {
-                    name: "address",
-                    value: place.formatted_address,
-                }
-            });
-        });
-
-    }, [onInputChange]);
+    const addressInputRef = useGooglePlacesAutocomplete(onInputChange);
 
     const handleFileChange = async (e) => {
         if (e.target.files && e.target.files[0]) {
@@ -50,7 +27,7 @@ const ContactForm = ({ onInputChange, onFileChange }) => {
             } catch (error) {
                 console.error("Error uploading image to Cloudinary:", error);
             }
-        }else{
+        } else {
             setSelectedFileName('');
             const profilePictureUrl = e.target.value
             onFileChange(profilePictureUrl)
@@ -73,11 +50,11 @@ const ContactForm = ({ onInputChange, onFileChange }) => {
                         <label htmlFor="profilePicture" className="form-label">Profile Picture</label>
                         <div className="input-group">
                             <input type="url" className="form-control" placeholder="Enter URL or Upload" onChange={handleFileChange} />
-                            <input 
-                                type="file" 
-                                className="form-control" 
-                                ref={fileInputRef} 
-                                onChange={handleFileChange} 
+                            <input
+                                type="file"
+                                className="form-control"
+                                ref={fileInputRef}
+                                onChange={handleFileChange}
                                 style={{ display: 'none' }}
                             />
                             <i className="bi bi-upload" onClick={() => fileInputRef.current.click()}></i>
@@ -90,22 +67,31 @@ const ContactForm = ({ onInputChange, onFileChange }) => {
                 <div className="col-md-6">
                     <div className="mb-3">
                         <label htmlFor="address" className="form-label">Address:</label>
-                        <input 
-                            type="text" 
-                            className="form-control" 
-                            id="address" 
-                            ref={addressInputRef} 
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="address"
+                            ref={addressInputRef}
                             required
                             placeholder='Enter contacts address'
-                        />                   
+                        />
+                        {validationErrors.address && (
+                            <span className="error-message">{validationErrors.address}</span>
+                        )}
                     </div>
                     <div className="mb-3">
                         <label htmlFor="phone" className="form-label">Phone:</label>
                         <input type="tel" placeholder='Enter contacts phone' className="form-control" id="phone" onChange={onInputChange} name="phone" required />
+                        {validationErrors.phone && (
+                            <span className="error-message">{validationErrors.phone}</span>
+                        )}
                     </div>
                     <div className="mb-3">
                         <label htmlFor="email" className="form-label">Email:</label>
                         <input type="email" placeholder='Enter contacts email' className="form-control" id="email" onChange={onInputChange} name="email" required />
+                        {validationErrors.email && (
+                            <span className="error-message">{validationErrors.email}</span>
+                        )}
                     </div>
                 </div>
             </div>

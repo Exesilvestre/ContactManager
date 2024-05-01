@@ -4,6 +4,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import styles from './login.module.css';
 import { useState } from "react";
+import {DASHBOARD_ROUTE} from '../routes'
 
 interface FormValues {
   username: string;
@@ -56,7 +57,7 @@ const LoginPage = () => {
         return;
       }
 
-      router.push("/dashboard");
+      router.push(DASHBOARD_ROUTE);
     },
   });
 

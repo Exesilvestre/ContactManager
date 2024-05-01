@@ -6,11 +6,14 @@ import ContactForm from './components/ContactForm';
 import './page.css';
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { DASHBOARD_ROUTE, LOGIN_ROUTE } from '../routes';
 
 const AddContact = () => {
     const router = useRouter();
     const dispatch = useDispatch();
     const { data: session } = useSession();
+    const [incompleteFields, setIncompleteFields] = useState([]);
+    const [validationErrors, setValidationErrors] = useState({});
 
     const [newContact, setNewContact] = useState({
         name: '',
@@ -27,6 +30,10 @@ const AddContact = () => {
             ...newContact,
             [name]: value
         });
+        setValidationErrors({
+            ...validationErrors,
+            [name]: ''
+        });
     };
 
     const handleFileChange = (profilePictureUrl) => {
@@ -36,39 +43,69 @@ const AddContact = () => {
         });
     };
 
+    const validatePhone = (phone) => {
+        const phonePattern = /^\d+$/;
+        return phonePattern.test(phone);
+    };
+
+    const validateEmail = (email) => {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailPattern.test(email);
+    };
+
     const handleSaveContact = async () => {
         if (!session) {
-            router.push("/login");
+            router.push(LOGIN_ROUTE);
             return;
         }
-        const allFieldsCompleted = Object.values(newContact).every(field => !!field);
-        console.log("All fields completed:", allFieldsCompleted);
-        console.log(newContact)
-        if (!allFieldsCompleted) {
-            alert('All fields need to be filled.');
+        const requiredFields = ['name', 'title', 'address', 'phone', 'email'];
+        const missingFields = requiredFields.filter(field => !newContact[field]);
+
+        if (missingFields.length > 0) {
+            setIncompleteFields(missingFields);
             return;
         }
+
+        const phoneValid = validatePhone(newContact.phone);
+        const emailValid = validateEmail(newContact.email);
+
+        if (!phoneValid || !emailValid) {
+            const errors = {};
+            if (!phoneValid) {
+                errors.phone = 'Only numbers are allowed';
+            }
+            if (!emailValid) {
+                errors.email = 'Please enter a valid email address';
+            }
+            setValidationErrors(errors);
+            return;
+        }
+
         try {
             dispatch(addContact(newContact));
-            router.push('/dashboard');
+            router.push(DASHBOARD_ROUTE);
         } catch (error) {
             console.error("Error adding contact:", error);
         }
-    };
-
-
+    }
 
     return (
         <div className="container">
             <ContactForm 
                 onInputChange={handleInputChange}
                 onFileChange={handleFileChange}
+                validationErrors={validationErrors}
             />
             <div className="button-container">
                 <button className="btn-add" onClick={handleSaveContact}>
                     Confirm Contact
                 </button>
             </div>
+            {incompleteFields.length > 0 && (
+                <span className="missing-fields-message">
+                    Please complete the following fields: {incompleteFields.join(', ')}
+                </span>
+            )}
         </div>
     );
 };

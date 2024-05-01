@@ -1,6 +1,5 @@
 import '../styles/AddButton.css';
 
-
 const AddButton = ({ onAddClick }) => {
     return (
         <div className="button-container">
