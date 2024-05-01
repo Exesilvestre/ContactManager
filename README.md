@@ -59,5 +59,6 @@ npm install
 npm run dev
 ```
 
-###Credentials
+### Credentials
+
 The credentials to login are username: admin, and password: 123
