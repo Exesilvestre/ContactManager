@@ -30,7 +30,7 @@ export default function RootLayout({
       <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet"/>
         <Header />
         <Script
-          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.MY_API_KEY_HERE}&libraries=places`}
+          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.MY_API_KEY}&libraries=places`}
           strategy="beforeInteractive"
         />
         <main className='container-fluid'>

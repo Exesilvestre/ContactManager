@@ -14,6 +14,7 @@ interface FormValues {
 const LoginPage = () => {
   const router = useRouter();
   const [error, setError] = useState<{ message?: string }>({});
+  const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -43,6 +44,7 @@ const LoginPage = () => {
           errors.password = "Password is required";
         }
         setErrors(errors);
+        setLoading(false);
         return;
       }
 
@@ -54,6 +56,7 @@ const LoginPage = () => {
 
       if (responseNextAuth?.error) {
         setError({ message: "Incorrect credentials" });
+        setLoading(false);
         return;
       }
 
@@ -77,6 +80,7 @@ const LoginPage = () => {
             value={formik.values.username}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            disabled={loading}
           />
           {formik.touched.username && formik.errors.username ? (
             <div className={styles.error}>{formik.errors.username}</div>
@@ -93,6 +97,7 @@ const LoginPage = () => {
             value={formik.values.password}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            disabled={loading}
           />
           {formik.touched.password && formik.errors.password ? (
             <div className={styles.error}>{formik.errors.password}</div>
@@ -100,7 +105,7 @@ const LoginPage = () => {
         </div>
   
         <button type="submit" className={styles.submitButton}>
-          Login
+          {loading ? "Loading..." : "Login"}
         </button>
       </form>
     </div>
