@@ -28,9 +28,11 @@ const User = sequelize.define("User", {
 // defino modelo de contactos
 const Contact = sequelize.define("Contact", {
   IdContact: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID, 
+    defaultValue: DataTypes.UUIDV4,
+    allowNull: false,
+    unique: true,
     primaryKey: true,
-    autoIncrement: true,
   },
   Name: {
     type: DataTypes.TEXT,

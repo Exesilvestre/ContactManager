@@ -46,7 +46,7 @@ async function CrearBaseSiNoExiste() {
   if (!exist) {
     await db.run(
     `CREATE table contacts( 
-        IdContact INTEGER PRIMARY KEY AUTOINCREMENT,
+        IdContact TEXT PRIMARY KEY,
         UserId TEXT NOT NULL,
         Email TEXT NOT NULL,
         Title TEXT NOT NULL,
