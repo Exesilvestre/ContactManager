@@ -1,15 +1,16 @@
 const express = require("express");
 const cors = require("cors"); 
-const bcrypt = require('bcrypt');
+const config = require("./config/app"); 
 
 require("./base-orm/sqlite-init");
+
 
 // create server
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-const usersRouter = require("./routes/users");
+const usersRouter = require("./routes/auth");
 app.use(usersRouter);
 
 const contactsRouter = require("./routes/contacts");
@@ -17,7 +18,7 @@ app.use(contactsRouter);
 
 // start server
 if (!module.parent) {
-  const port = process.env.PORT || 4000;   
+  const port =  config.port; 
   app.listen(port, () => {
     console.log(`site listening port: ${port}`);
   });

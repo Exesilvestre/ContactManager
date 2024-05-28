@@ -4,7 +4,6 @@ const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcrypt');
 
 async function CrearBaseSiNoExiste() {
-  // abrir base, si no existe el archivo/base lo crea
   await db.open("./.data/contacts.db");
   //await db.open(process.env.base);
 

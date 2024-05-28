@@ -1,153 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const { ValidationError } = require("sequelize");
-const jwt = require('jsonwebtoken');
-const cloudinary = require('../config/CloudinaryConfig');
-const bcrypt = require('bcrypt');
-
-const db = require("../base-orm/sequelize-init");
-
-const verifyToken = (req, res, next) => {
-    const token = req.headers.authorization?.split(' ')[1];
-    
-    if (!token) {
-        return res.status(401).json({ message: 'No token provided' });
-    }
-    
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.userId = decoded.userId;
-        next();
-    } catch (error) {
-        return res.status(403).json({ message: 'Invalid token' });
-    }
-};
+const verifyToken = require('../middlewares/VerifyToken');
+const ContactsController = require('../controllers/ContactsController');
 
 // GET
-router.get("/api/contacts", verifyToken, async (req, res) => {
-    try {
-        console.log("User ID from Token:", req.userId);
-        const contacts = await db.Contact.findAll({
-            where: { UserId: req.userId },
-            attributes: [
-                "IdContact",
-                "Name",
-                "Address",
-                "Cellphone",
-                "ProfilePic",
-                "Title",
-                "Email",
-            ],
-            order: [["Name", "ASC"]],
-        });
-
-        res.json(contacts);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Error al obtener los contactos' });
-    }
-});
-
-router.get("/api/contacts/:id", verifyToken, async (req, res) => {
-    try {
-        console.log("User ID from Token:", req.userId);
-        const contact = await db.Contact.findOne({
-            where: { UserId: req.userId, IdContact: req.params.id  },
-            attributes: [
-                "IdContact",
-                "Name",
-                "Address",
-                "Cellphone",
-                "ProfilePic",
-                "Title",
-                "Email",
-            ],
-        });
-
-        if (!contact) {
-            res.status(404).json({ message: "Contact not found" });
-            return;
-        }
-        res.json(contact)
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Error al obtener el contacto' });
-    }
-});
+router.get("/api/contacts", verifyToken, ContactsController.getAllContacts);
+router.get("/api/contacts/:id", verifyToken, ContactsController.getContactById);
 
 // POST
-router.post("/api/contacts", verifyToken, async (req, res) => {
-    try {
-        let data = await db.Contact.create({
-            UserId: req.userId,
-            Email: req.body.email,
-            Name: req.body.name,
-            Address: req.body.address,
-            Cellphone: req.body.phone,
-            ProfilePic: req.body.profilePicture,
-            Title: req.body.title,
-        });
-        res.status(200).json(data.dataValues);
-    } catch (err) {
-        if (err instanceof ValidationError) {
-            let messages = '';
-            err.errors.forEach((x) => messages += (x.path ?? 'campo') + ": " + x.message + '\n');
-            res.status(400).json({ message: messages });
-        } else {
-            throw err;
-        }
-    }
-});
+router.post("/api/contacts", verifyToken, ContactsController.createContact);
 
 // PUT
-router.put("/api/contacts/:id", verifyToken, async (req, res) => {
-    try {
-        let item = await db.Contact.findOne({
-            where: { IdContact: req.params.id, UserId: req.userId },
-        });
-
-        if (!item) {
-            res.status(404).json({ message: "Contact not found" });
-            return;
-        }
-
-        item.Name = req.body.name;
-        item.Email = req.body.email;
-        item.Title = req.body.title;
-        item.Address = req.body.address;
-        item.Cellphone = req.body.phone;
-        item.ProfilePic = req.body.profilePicture;
-
-        await item.save();
-        res.sendStatus(200);
-    } catch (err) {
-        if (err instanceof ValidationError) {
-            let messages = '';
-            err.errors.forEach((x) => messages += x.path + ": " + x.message + '\n');
-            res.status(400).json({ message: messages });
-        } else {
-            throw err;
-        }
-    }
-});
+router.put("/api/contacts/:id", verifyToken, ContactsController.updateContact);
 
 // DELETE
-router.delete("/api/contacts/:id", verifyToken, async (req, res) => {
-    try {
-        const result = await db.Contact.destroy({
-            where: { IdContact: req.params.id, UserId: req.userId },
-        });
-
-        if (result === 0) {
-            res.status(404).json({ message: "Contact not found" });
-            return;
-        }
-
-        res.sendStatus(200);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Error deleting contact' });
-    }
-});
+router.delete("/api/contacts/:id", verifyToken, ContactsController.deleteContact);
 
 module.exports = router;
