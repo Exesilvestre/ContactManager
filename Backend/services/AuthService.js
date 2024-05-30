@@ -1,4 +1,4 @@
-const { User } = require('../base-orm/sequelize-init'); 
+const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const config = require('../config/app');
@@ -6,7 +6,6 @@ const config = require('../config/app');
 class AuthService {
     static async login(username, password) {
         const user = await User.findOne({ where: { username } });
-
         if (!user || !bcrypt.compareSync(password, user.Passwd)) {
             throw new Error('Credenciales incorrectas');
         }

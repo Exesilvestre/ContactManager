@@ -1,9 +1,11 @@
 const { ValidationError } = require("sequelize");
-const db = require("../base-orm/sequelize-init");
+const { Contact } = require("../models/contact")
+const { User } = require('../models/user');
+
 
 class ContactService {
     static async getAllContacts(userId) {
-        return await db.Contact.findAll({
+        return await Contact.findAll({
             where: { UserId: userId },
             attributes: [
                 "IdContact",
@@ -19,7 +21,7 @@ class ContactService {
     }
 
     static async getContactById(userId, contactId) {
-        const contact = await db.Contact.findOne({
+        const contact = await Contact.findOne({
             where: { UserId: userId, IdContact: contactId },
             attributes: [
                 "IdContact",
@@ -40,7 +42,7 @@ class ContactService {
     }
 
     static async createContact(userId, contactData) {
-        return await db.Contact.create({
+        return await Contact.create({
             UserId: userId,
             Email: contactData.email,
             Name: contactData.name,
@@ -52,7 +54,7 @@ class ContactService {
     }
 
     static async updateContact(userId, contactId, contactData) {
-        let item = await db.Contact.findOne({
+        let item = await Contact.findOne({
             where: { IdContact: contactId, UserId: userId },
         });
 
@@ -72,7 +74,7 @@ class ContactService {
     }
 
     static async deleteContact(userId, contactId) {
-        const result = await db.Contact.destroy({
+        const result = await Contact.destroy({
             where: { IdContact: contactId, UserId: userId },
         });
 
