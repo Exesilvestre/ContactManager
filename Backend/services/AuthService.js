@@ -1,11 +1,11 @@
-const User = require('../models/user');
+const { User } = require('../models'); // Importa desde 'models/index.js'
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const config = require('../config/app');
 
 class AuthService {
     static async login(username, password) {
-        const user = await User.findOne({ where: { username } });
+        const user = await User.findOne({ where: { Username: username } }); // Asegúrate de usar el nombre de columna correcto
         if (!user || !bcrypt.compareSync(password, user.Passwd)) {
             throw new Error('Credenciales incorrectas');
         }
@@ -30,7 +30,7 @@ class AuthService {
 
         const decoded = jwt.verify(token, config.jwtSecret);
         const userId = decoded.userId;
-        
+
         const user = await User.findByPk(userId);
         if (!user) {
             throw new Error('User not found');

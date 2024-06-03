@@ -46,11 +46,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    UserId:{
+    UserId: {
       type: DataTypes.UUID,
       allowNull: false,
       references: {
-        model: User,
+        model: 'Users', // Nombre de la tabla a la que se hace referencia
         key: 'IdUser'
       }
     },

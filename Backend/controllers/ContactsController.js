@@ -40,6 +40,7 @@ class ContactsController {
 
     static async updateContact(req, res) {
         try {
+            print(req.body)
             const contact = await ContactService.updateContact(req.userId, req.params.id, req.body);
             res.status(200).json(contact);
         } catch (err) {

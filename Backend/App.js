@@ -2,8 +2,6 @@ const express = require("express");
 const cors = require("cors"); 
 const config = require("./config/app"); 
 
-
-
 // create server
 const app = express();
 app.use(express.json());

@@ -1,5 +1,5 @@
 const { ValidationError } = require("sequelize");
-const { Contact } = require("../models/contact")
+const { Contact } = require("../models")
 const { User } = require('../models/user');
 
 

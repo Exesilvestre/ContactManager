@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
       allowNull: false,
       unique: true,
-      primaryKey: true,},
+      primaryKey: true,
+    },
     Username: {
       type: DataTypes.TEXT,
       allowNull: false,
@@ -28,8 +29,8 @@ module.exports = (sequelize, DataTypes) => {
     Passwd: {
       type: DataTypes.TEXT,
       allowNull: false,
-  },
-  },{
+    },
+  }, {
     sequelize,
     modelName: 'User',
     timestamps: false,
