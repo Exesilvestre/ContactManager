@@ -5,6 +5,7 @@ import SessionAuthProvider from '@/context/SessionAuthProvider';
 import Header from '@/components/Header';
 import './globals.css'
 import Script from 'next/script';
+import config from '../config/config';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,7 +31,7 @@ export default function RootLayout({
       <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet"/>
         <Header />
         <Script
-          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.MY_API_KEY}&libraries=places`}
+          src={`https://maps.googleapis.com/maps/api/js?key=${config.googleApiKey}&libraries=places`}
           strategy="beforeInteractive"
         />
         <main className='container-fluid'>

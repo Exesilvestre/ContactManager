@@ -1,4 +1,5 @@
 import { getSession } from "next-auth/react";
+import config from '../../config/config'
 
 const handleFetchErrors = async (response: Response) => {
   if (!response.ok) {
@@ -36,7 +37,7 @@ const getHeaders = async (): Promise<HeadersInit> => {
 export const addContactAPI = async (contact: any) => {
   try {
     const headers = await getHeaders();
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/contacts`, {
+    const response = await fetch(`${config.backendUrl}/contacts`, {
       method: 'POST',
       headers: headers,
       body: JSON.stringify(contact),
@@ -53,7 +54,7 @@ export const addContactAPI = async (contact: any) => {
 export const getContactsAPI = async () => {
   try {
     const headers = await getHeaders();
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/contacts`, {
+    const response = await fetch(`${config.backendUrl}/contacts`, {
       headers: headers,
     });
     const data = await handleFetchErrors(response);
@@ -67,7 +68,7 @@ export const getContactsAPI = async () => {
 export const getContactByIdAPI = async (contactId: any) => {
   try {
     const headers = await getHeaders();
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/contacts/${contactId}`, {
+    const response = await fetch(`${config.backendUrl}/contacts/${contactId}`, {
       headers: headers,
     });
     const data = await handleFetchErrors(response);
@@ -81,7 +82,7 @@ export const getContactByIdAPI = async (contactId: any) => {
 export const deleteContactAPI = async (contactId: any) => {
   try {
     const headers = await getHeaders();
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/contacts/${contactId}`, {
+    const response = await fetch(`${config.backendUrl}/contacts/${contactId}`, {
       method: 'DELETE',
       headers: headers,
     });
