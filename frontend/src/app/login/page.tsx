@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import styles from './login.module.css';
 import { useState } from "react";
 import {DASHBOARD_ROUTE} from '../routes'
+import LoginButton from './components/LoginButton'
+import LoginInput from './components/LoginInput'
 
 interface FormValues {
   username: string;
@@ -69,45 +71,30 @@ const LoginPage = () => {
       <h1 className={styles.title}>Welcome</h1>
       {error.message && <p className={styles.error}>{error.message}</p>}
       <form onSubmit={formik.handleSubmit} className={styles.form}>
-        
-        <div className="form-group">
-          <label htmlFor="username" className={styles.inputLabel}>Username</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            className={`${styles.inputField} form-control`}
-            value={formik.values.username}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            disabled={loading}
-          />
-          {formik.touched.username && formik.errors.username ? (
-            <div className={styles.error}>{formik.errors.username}</div>
-          ) : null}
-        </div>
-  
-        <div className="form-group">
-          <label htmlFor="password" className={styles.inputLabel}>Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            className={`${styles.inputField} form-control`}
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            disabled={loading}
-          />
-          {formik.touched.password && formik.errors.password ? (
-            <div className={styles.error}>{formik.errors.password}</div>
-          ) : null}
-        </div>
-  
-        <button type="submit" className={styles.submitButton}>
-          {loading ? "Loading..." : "Login"}
-        </button>
-      </form>
+                <LoginInput
+                    id="username"
+                    label="Username"
+                    type="text"
+                    value={formik.values.username}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    disabled={loading}
+                    error={formik.touched.username && formik.errors.username ? formik.errors.username : null}
+                />
+                <LoginInput
+                    id="password"
+                    label="Password"
+                    type="password"
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    disabled={loading}
+                    error={formik.touched.password && formik.errors.password ? formik.errors.password : null}
+                />
+                <LoginButton type="submit" className={styles.submitButton} disabled={loading}>
+                    {loading ? "Loading..." : "Login"}
+                </LoginButton>
+            </form>
     </div>
   );
 };

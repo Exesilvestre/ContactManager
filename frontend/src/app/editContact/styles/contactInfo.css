@@ -1,7 +1,9 @@
 .contact-info {
-    margin-top: -144px;
-    margin-left: 572px;
-    width: 186px;
+    position: relative;
+    z-index: 1; 
+    margin-top: -144px; /* Ajuste para centrar horizontalmente */
+    margin-right: auto; 
+    width: 1360px;
     height: 248px;
     display: flex;
     flex-direction: column;
@@ -47,4 +49,23 @@
     font-size: 18px;
     color: #8888889e;
     margin-top: 0px;
+}
+
+.ledger {
+    position: relative;
+    width: 1360px;
+    height: 278px;
+    border: 1px solid rgba(251, 238, 255, 1);
+    background: rgba(235, 235, 235, 1);
+    border-radius: 16px;
+    margin-top: 40px;
+    z-index: 0; /* Asegura que el Ledger esté detrás del ContactInfo */
+}
+
+.upload-icon-container {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    bottom: 10px;           
+    right: 10px;           
 }

@@ -3,7 +3,7 @@ import '../styles/contactInfo.css';
 
 const ContactInfo = ({ contact }) =>{
     if (!contact) {
-        return null; // Si contact es undefined, no renderizar nada
+        return null;
     }
     return(
         <div className="contact-info">

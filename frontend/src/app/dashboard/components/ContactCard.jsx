@@ -12,9 +12,8 @@ const ContactCard = ({ contact}) => {
   const dispatch = useDispatch();
 
   const handleEdit = () => {
-    alert('Edit Contacts is not implemented yet')
-    //router.push(`/editContact?id=${contact.IdContact}`); 
- };
+    router.push(`/editContact?id=${contact.IdContact}`); 
+  };
 
   const handleDelete =() =>{
     try {

@@ -1,8 +1,9 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { addContact } from '../store/contactSlice'; 
 import { useDispatch } from 'react-redux';
 import ContactForm from './components/ContactForm';
+import ConfirmButton from './components/ConfirmButton';
 import './page.css';
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -87,7 +88,7 @@ const AddContact = () => {
         } catch (error) {
             console.error("Error adding contact:", error);
         }
-    }
+    };
 
     return (
         <div className="container">
@@ -97,9 +98,9 @@ const AddContact = () => {
                 validationErrors={validationErrors}
             />
             <div className="button-container">
-                <button className="btn-add" onClick={handleSaveContact}>
+                <ConfirmButton className="btn-add" onClick={handleSaveContact}>
                     Confirm Contact
-                </button>
+                </ConfirmButton>
             </div>
             {incompleteFields.length > 0 && (
                 <span className="missing-fields-message">

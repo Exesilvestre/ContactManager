@@ -93,3 +93,19 @@ export const deleteContactAPI = async (contactId: any) => {
     throw error;
   }
 };
+
+export const updateContactAPI = async (contact: any) => {
+  try {
+    const headers = await getHeaders();
+    const response = await fetch(`${config.backendUrl}/contacts/${contact.IdContact}`, {
+      method: 'PUT',
+      headers: headers,
+      body: JSON.stringify(contact),
+    });
+    const data = await handleFetchErrors(response);
+    return data;
+  } catch (error) {
+    console.error('Error updating contact:', error);
+    throw error;
+  }
+};

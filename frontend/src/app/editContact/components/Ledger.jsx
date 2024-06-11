@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../styles/ledger.css';
-import EditButton from './EditButton'
+import EditButton from './EditButton';
+import UploadIcon from './UploadIcon';
 
-
-const Ledger = () => {
-    const [editMode, setEditMode] = useState(false);
-
+const Ledger = ({ editMode, setEditMode, onFileChange }) => {
     const handleEditClick = () => {
         setEditMode(!editMode);
     };
@@ -13,9 +11,7 @@ const Ledger = () => {
     return (
         <div className="ledger">
             {editMode ? (
-                <div className="upload-icon-container">
-                    <i className="bi bi-upload"></i>
-                </div>
+                <UploadIcon onFileChange={onFileChange} />
             ) : (
                 <EditButton onEditClick={handleEditClick} />
             )}
