@@ -97,8 +97,8 @@ const AddContact = () => {
                 onFileChange={handleFileChange}
                 validationErrors={validationErrors}
             />
-            <div className="button-container">
-                <ConfirmButton className="btn-add" onClick={handleSaveContact}>
+            <div className="button-container-confirm">
+                <ConfirmButton className="btn-add-confirm" onClick={handleSaveContact}>
                     Confirm Contact
                 </ConfirmButton>
             </div>

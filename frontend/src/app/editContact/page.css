@@ -1,14 +1,11 @@
 .container {
-    position: relative;
-}
-.button-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    margin-top: 5%;
 }
-.contact-info-container{
-    position: absolute;
-    z-index: 1;
-    top: 320px;
-}
+
 .contact-form {
     display: flex;
     flex-direction: column;
@@ -66,29 +63,6 @@
     margin-bottom: 0px;
 }
 
-.contact-form .input-group i {
-    padding: 10px;
-    border: 1px solid #ced4da;
-    border-radius: 0 4px 4px 0;
-    background-color: #e9ecef;
-    cursor: pointer;
-    margin-bottom: 40px;
-}
-
-.contact-form .input-group input[type="url"],
-.contact-form .input-group input[type="file"] {
-    flex-grow: 1;
-    border-radius: 4px 0 0 4px;
-    border: none;
-}
-
-.contact-form .input-group i {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(251, 238, 255, 1);
-    border: none;
-}
 
 @media screen and (max-width: 767px) {
     .col-md-6 .mb-3 {

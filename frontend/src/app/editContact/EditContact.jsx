@@ -123,8 +123,8 @@ const EditContact = () => {
         editMode={editMode}
       />
       {editMode && (
-        <div className="button-container">
-          <ConfirmButton className="btn-add" onClick={handleSaveContact}>
+        <div className="button-container-edit">
+          <ConfirmButton className="btn-add-edit" onClick={handleSaveContact}>
             Save Changes
           </ConfirmButton>
         </div>

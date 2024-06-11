@@ -21,8 +21,8 @@ const UploadIcon = ({ onFileChange }) => {
                 const data = await response.json();
                 const profilePictureUrl = data.secure_url;
 
-                // Asegúrate de que se llame correctamente a la función onFileChange
-                if (typeof onFileChange === 'function') {
+                
+                if (onFileChange) {
                     onFileChange(profilePictureUrl);
                 }
             } catch (error) {

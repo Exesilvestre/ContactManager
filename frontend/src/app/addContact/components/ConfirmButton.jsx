@@ -1,4 +1,5 @@
 import React from 'react';
+import '../styles/ConfirmAdd.css'
 
 const ConfirmButton = ({ className, onClick, children }) => {
     return (

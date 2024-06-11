@@ -1,18 +1,20 @@
 .ledger {
     position: relative;
-    width: 1360px;
+    width: 100%; /* Ajustar el ancho del ledger al 100% del contenedor padre */
+    max-width: 1360px; /* Establecer un ancho máximo para el ledger */
     height: 278px;
     border: 1px solid rgba(251, 238, 255, 1);
     background: rgba(235, 235, 235, 1);
     border-radius: 16px;
-    margin-top: 40px;
+    margin-top: 0 !important;
+    display: flex; /* Utilizar flexbox para el diseño */
+    justify-content: flex-end; /* Alinear el contenido a la derecha */
+    align-items: flex-end; /* Alinear los elementos al final del eje vertical */
+    padding: 20px; /* Añadir espacio interno al ledger */
 }
 
 .upload-icon-container {
     width: 20px;
     height: 20px;
-    position: absolute;
-    bottom: 10px;           
-    right: 10px;  
-    cursor: pointer;         
+    cursor: pointer;
 }

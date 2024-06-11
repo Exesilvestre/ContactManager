@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 const ContactCard = ({ contact}) => {
   const router = useRouter();
   const dispatch = useDispatch();
+  
 
   const handleEdit = () => {
     router.push(`/editContact?id=${contact.IdContact}`); 
@@ -34,7 +35,7 @@ const ContactCard = ({ contact}) => {
           <div className="info">
             <div className="card-body">
               <h5 className="card-title name">{contact.Name}</h5>
-              <button className="btn-edit" onClick={handleEdit}>
+              <button className="btn-edit-card" onClick={handleEdit}>
                 <FontAwesomeIcon icon={faGreaterThan} />
               </button>
             </div>
