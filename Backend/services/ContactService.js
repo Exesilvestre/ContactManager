@@ -62,12 +62,12 @@ class ContactService {
             throw new Error('Contact not found');
         }
 
-        item.Name = contactData.name;
-        item.Email = contactData.email;
-        item.Title = contactData.title;
-        item.Address = contactData.address;
-        item.Cellphone = contactData.phone;
-        item.ProfilePic = contactData.profilePicture;
+        item.Name = contactData.Name;
+        item.Email = contactData.Email;
+        item.Title = contactData.Title;
+        item.Address = contactData.Address;
+        item.Cellphone = contactData.Cellphone;
+        item.ProfilePic = contactData.ProfilePic;
 
         await item.save();
         return item;
