@@ -1,9 +1,10 @@
 import React from 'react';
 import '../styles/ledger.css';
-import EditButton from './EditButton';
+import '../styles/EditButton.css'
 import UploadIcon from './UploadIcon';
+import Button from '@/app/utils/Button';
 
-const Ledger = ({ editMode, setEditMode, onFileChange }) => {
+const Ledger = ({ editMode, setEditMode, onFileChange, setIsLoading }) => {
     const handleEditClick = () => {
         setEditMode(!editMode);
     };
@@ -11,9 +12,14 @@ const Ledger = ({ editMode, setEditMode, onFileChange }) => {
     return (
         <div className="ledger">
             {editMode ? (
-                <UploadIcon onFileChange={onFileChange} />
+                <UploadIcon onFileChange={onFileChange} setIsLoading={setIsLoading} />
             ) : (
-                <EditButton onEditClick={handleEditClick} />
+                <div className="button-container-ledger">
+                    <Button className="btn-edit-ledger" onClick={handleEditClick}>
+                        EDIT
+                    </Button>
+                </div>
+
             )}
         </div>
     );

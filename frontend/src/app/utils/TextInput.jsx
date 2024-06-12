@@ -1,17 +1,30 @@
 import React from 'react';
 
-const TextInput = ({ id, label, name, placeholder, type = "text", onChange, validationError }) => {
+const TextInput = ({ 
+    id, 
+    label, 
+    name, 
+    placeholder, 
+    type = "text", 
+    onChange, 
+    validationError, 
+    value, 
+    disabled, 
+    required = true 
+}) => {
     return (
         <div className="mb-3">
             <label htmlFor={id} className="form-label">{label}:</label>
             <input 
                 type={type}
-                placeholder={placeholder}
                 className="form-control"
                 id={id}
                 name={name}
+                placeholder={placeholder}
                 onChange={onChange}
-                required
+                value={value}
+                disabled={disabled}
+                required={required}
             />
             {validationError && (
                 <span className="error-message">{validationError}</span>

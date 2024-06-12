@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateContact, fetchContactById } from '../store/contactSlice';
 import { useRouter } from 'next/navigation';
 import EditContactForm from './components/EditContactForm';
-import ConfirmButton from './components/ConfirmButton';
 import './page.css';
 import { useSession } from 'next-auth/react';
 import { DASHBOARD_ROUTE, LOGIN_ROUTE } from '../routes';
 import Ledger from './components/Ledger';
 import ContactInfo from './components/ContactInfo';
+import Button from '../utils/Button';
+import './styles/ConfirmButton.css';
 
 const EditContact = () => {
   const router = useRouter();
@@ -26,6 +27,7 @@ const EditContact = () => {
   });
   const [temporaryContact, setTemporaryContact] = useState({ ...contact });
   const [editMode, setEditMode] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get('id');
@@ -114,7 +116,12 @@ const EditContact = () => {
 
   return (
     <div className="container">
-      <Ledger editMode={editMode} setEditMode={setEditMode} onFileChange={handleFileChange} />
+      <Ledger 
+        editMode={editMode}
+        setEditMode={setEditMode} 
+        onFileChange={handleFileChange}
+        setIsLoading={setIsLoading} 
+        />
       <ContactInfo contact={contact} />
       <EditContactForm 
         onInputChange={handleInputChange}
@@ -124,9 +131,9 @@ const EditContact = () => {
       />
       {editMode && (
         <div className="button-container-edit">
-          <ConfirmButton className="btn-add-edit" onClick={handleSaveContact}>
-            Save Changes
-          </ConfirmButton>
+          <Button className="btn-add-edit" onClick={handleSaveContact} disabled={isLoading}>
+            {isLoading ? 'Saving...' : 'Save Changes'}
+          </Button>
         </div>
       )}
       {incompleteFields.length > 0 && (

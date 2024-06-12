@@ -57,3 +57,11 @@
     bottom: 10px;           
     right: 10px;           
 }
+
+@media (max-width: 700px) {
+    .contact-image-container {
+        width: 150px; 
+        height: 150px;
+    }
+}
+

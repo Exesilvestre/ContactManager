@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import config from '../../../config/config';
 
-const UploadIcon = ({ onFileChange }) => {
+const UploadIcon = ({ onFileChange, setIsLoading }) => {
     const fileInputRef = useRef(null);
     const [selectedFileName, setSelectedFileName] = useState('');
 
@@ -13,6 +13,7 @@ const UploadIcon = ({ onFileChange }) => {
             formData.append('file', file);
             formData.append('upload_preset', 'ml_default');
 
+            setIsLoading(true);
             try {
                 const response = await fetch(config.cloudinaryUploadUrl, {
                     method: 'POST',
@@ -27,6 +28,8 @@ const UploadIcon = ({ onFileChange }) => {
                 }
             } catch (error) {
                 console.error("Error uploading image to Cloudinary:", error);
+            } finally {
+                setIsLoading(false);
             }
         } else {
             setSelectedFileName('');

@@ -1,9 +1,9 @@
 import React from 'react';
-import TextInput from './TextInput';
+import TextInput from '../../utils/TextInput';
 import FileInput from './FileInput';
 import useGooglePlacesAutocomplete from '../hooks/useGooglePlacesAutocomplete';
 
-const ContactForm = ({ onInputChange, onFileChange, validationErrors }) => {
+const ContactForm = ({ onInputChange, onFileChange, validationErrors, setIsLoading }) => {
 
 
     const onAddressChange = (address) => {
@@ -41,6 +41,7 @@ const ContactForm = ({ onInputChange, onFileChange, validationErrors }) => {
                         id="profilePicture"
                         label="Profile Picture"
                         onChange={onFileChange}
+                        setIsLoading={setIsLoading}
                     />
                 </div>
                 <div className="col-md-6">

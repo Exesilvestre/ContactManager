@@ -3,11 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { addContact } from '../store/contactSlice'; 
 import { useDispatch } from 'react-redux';
 import ContactForm from './components/ContactForm';
-import ConfirmButton from './components/ConfirmButton';
 import './page.css';
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { DASHBOARD_ROUTE, LOGIN_ROUTE } from '../routes';
+import Button from '../utils/Button';
+import './styles/ConfirmAdd.css'
 
 const AddContact = () => {
     const router = useRouter();
@@ -15,6 +16,7 @@ const AddContact = () => {
     const { data: session } = useSession();
     const [incompleteFields, setIncompleteFields] = useState([]);
     const [validationErrors, setValidationErrors] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
 
     const [newContact, setNewContact] = useState({
         name: '',
@@ -96,11 +98,16 @@ const AddContact = () => {
                 onInputChange={handleInputChange}
                 onFileChange={handleFileChange}
                 validationErrors={validationErrors}
+                setIsLoading={setIsLoading}
             />
             <div className="button-container-confirm">
-                <ConfirmButton className="btn-add-confirm" onClick={handleSaveContact}>
-                    Confirm Contact
-                </ConfirmButton>
+                <Button 
+                    className="btn-add-confirm" 
+                    onClick={handleSaveContact} 
+                    disabled={isLoading}
+                >
+                    {isLoading ? 'Loading...' : 'Confirm Contact'}
+                </Button>
             </div>
             {incompleteFields.length > 0 && (
                 <span className="missing-fields-message">

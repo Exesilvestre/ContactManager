@@ -1,6 +1,6 @@
 // EditContactForm.jsx
 import React, {useState, useEffect, useCallback} from 'react';
-import TextInput from './TextInput';
+import TextInput from '../../utils/TextInput';
 import useGooglePlacesAutocomplete from '../../addContact/hooks/useGooglePlacesAutocomplete';
 
 const EditContactForm = ({ onInputChange, validationErrors, initialValues, editMode }) => {

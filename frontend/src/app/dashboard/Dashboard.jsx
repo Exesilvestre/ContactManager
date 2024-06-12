@@ -6,9 +6,10 @@ import ContactList from './components/ContactList';
 import { useSession } from "next-auth/react";
 import './page.css';
 import SearchBar from './components/SearchBar';
-import AddButton from './components/AddButton';
 import { useRouter } from "next/navigation";
 import {ADD_CONTACT_ROUTE, LOGIN_ROUTE} from '../routes'
+import Button from '../utils/Button'
+import './styles/AddButton.css'
 
 
 const Dashboard = () => {
@@ -52,7 +53,11 @@ const Dashboard = () => {
             <ContactList contacts={contacts}/>
           </div>
         </div>
-          <AddButton onAddClick={handleAddButtonClick} />    
+        <div className="button-container">
+          <Button className="btn-add" onClick={handleAddButtonClick}>
+            Add contact
+          </Button>   
+        </div>
     </div>
   );
 };
