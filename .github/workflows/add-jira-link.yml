@@ -1,0 +1,54 @@
+name: Insert Jira Ticket Link in PR Template
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  add-jira-link:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract ticket ID from branch
+        id: extract
+        run: |
+          BRANCH_NAME="${{ github.head_ref }}"
+          if [[ "$BRANCH_NAME" =~ (GPOC-[0-9]+) ]]; then
+            echo "TICKET_ID=${BASH_REMATCH[1]}" >> $GITHUB_ENV
+          else
+            echo "TICKET_ID=" >> $GITHUB_ENV
+          fi
+
+      - name: Update PR body
+        if: env.TICKET_ID != ''
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const ticket = process.env.TICKET_ID;
+            const jiraBaseUrl = "https://tujira.atlassian.net/browse";
+            const ticketUrl = `${jiraBaseUrl}/${ticket}`;
+            const prNumber = context.payload.pull_request.number;
+
+            const pr = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber
+            });
+
+            let body = pr.data.body || "";
+
+            // Busca la sección "## Link al ticket de JIRA"
+            const regex = /(## Link al ticket de JIRA\s*\n)(.*)?/i;
+            if (regex.test(body)) {
+              body = body.replace(regex, `$1🔗 [${ticket}](${ticketUrl})\n`);
+            } else {
+              // Si no existe, lo agrega arriba
+              body = `## Link al ticket de JIRA\n🔗 [${ticket}](${ticketUrl})\n\n${body}`;
+            }
+
+            await github.rest.pulls.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber,
+              body
+            });
