@@ -12,7 +12,7 @@ jobs:
         id: extract
         run: |
           BRANCH_NAME="${{ github.head_ref }}"
-          if [[ "$BRANCH_NAME" =~ (GPOC-[0-9]+) ]]; then
+          if [[ "$BRANCH_NAME" =~ (COM-[0-9]+) ]]; then
             echo "TICKET_ID=${BASH_REMATCH[1]}" >> $GITHUB_ENV
           else
             echo "TICKET_ID=" >> $GITHUB_ENV
@@ -25,7 +25,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const ticket = process.env.TICKET_ID;
-            const jiraBaseUrl = "https://tujira.atlassian.net/browse";
+            const jiraBaseUrl = "https://exesilvestre.atlassian.net/browse";
             const ticketUrl = `${jiraBaseUrl}/${ticket}`;
             const prNumber = context.payload.pull_request.number;
 
@@ -37,12 +37,10 @@ jobs:
 
             let body = pr.data.body || "";
 
-            // Busca la sección "## Link al ticket de JIRA"
             const regex = /(## Link al ticket de JIRA\s*\n)(.*)?/i;
             if (regex.test(body)) {
               body = body.replace(regex, `$1🔗 [${ticket}](${ticketUrl})\n`);
             } else {
-              // Si no existe, lo agrega arriba
               body = `## Link al ticket de JIRA\n🔗 [${ticket}](${ticketUrl})\n\n${body}`;
             }
 
