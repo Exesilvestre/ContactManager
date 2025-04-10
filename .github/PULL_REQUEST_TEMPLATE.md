@@ -2,7 +2,6 @@
 
 ## Link al ticket de JIRA
 
-
 **¿Qué se hizo?**  
 _Describí brevemente los cambios realizados. Ej: Se corrigió un bug en el login que impedía avanzar si el usuario tenía caracteres especiales._
 
